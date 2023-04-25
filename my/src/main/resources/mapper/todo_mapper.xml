@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.my.todo.repository.TodoRepository">
+
+    <!--     <resultMap id="TodoResultMap" type="com.example.my.todo.entity.TodoEntity">
+        <result column="idx" property="idx" jdbcType="NUMERIC" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="done_yn" property="doneYn" jdbcType="VARCHAR" />
+        <result column="delete_yn" property="deleteYn" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+        <result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
+    </resultMap> -->
+
+    <select id="hello" resultType="java.lang.String">
+        select content
+        from todo
+        where idx = 1;
+    </select>
+
+    <select id="findByIdx" parameterType="java.lang.Integer" resultType="com.example.my.todo.entity.TodoEntity">
+        select idx, content, done_yn, delete_yn, create_date, update_date, delete_date
+        from todo
+        where idx = #{idx};
+    </select>
+
+</mapper>
