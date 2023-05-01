@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class TodoEntity {
     private Integer idx;
     private String content;
@@ -21,7 +20,7 @@ public class TodoEntity {
     private LocalDateTime updateDate;
     private LocalDateTime deleteDate;
 
-    public void setDoneYn(LocalDateTime localDateTimeCharacter doneYn) {
+    public void setDoneYn(Character doneYn) {
         this.doneYn = doneYn;
     }
 
@@ -41,8 +40,5 @@ public class TodoEntity {
     public String toString() {
         return "TodoEntity [idx=" + idx + ", content=" + content + ", doneYn=" + doneYn + ", deleteYn=" + deleteYn
                 + ", createDate=" + createDate + ", updateDate=" + updateDate + ", deleteDate=" + deleteDate + "]";
-    }
-
-    public static void insert(TodoEntity todoEntity) {
     }
 }
