@@ -3,6 +3,10 @@ server:
 
 # JSP 경로 설정
 spring:
+  security:
+    user:
+      name: test
+      password: 123
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -28,3 +32,21 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    operations-sorter: method
+
+# 로그 관련 설정
+logging:
+  file:
+    # / 를 붙이면 C드라이브 하위 폴더 생성됨
+    # / 를 안 붙이면 프로젝트 내부에 폴더 생성됨
+    name: log/todo.log
+    # 로그를 남길 데이터의 위험도
+    # TRACE < DEBUG < INFO < WARN < ERROR < FATAL
+  level:
+    root: warn
+  charset:
+    file: UTF-8

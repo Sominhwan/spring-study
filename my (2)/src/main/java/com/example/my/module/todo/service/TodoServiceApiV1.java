@@ -1,39 +1,41 @@
-package com.example.my.todo.service;
+package com.example.my.module.todo.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.my.common.ResDTO;
-import com.example.my.todo.dto.TodoDTO;
-import com.example.my.todo.entity.TodoEntity;
-import com.example.my.todo.repository.TodoRepository;
+import com.example.my.common.dto.ResDTO;
+import com.example.my.module.todo.entity.TodoEntity;
+import com.example.my.module.todo.repository.TodoRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class TodoServiceApiV2 {
+public class TodoServiceApiV1 {
+
     private final TodoRepository todoRepository;
 
     public ResDTO<?> findByDeleteYn(Character deleteYn) {
-
-        List<TodoEntity> todoEntityList = todoRepository.findByDeleteYn(deleteYn);
-
         return ResDTO.builder()
                 .code(0)
                 .message("할 일 조회에 성공하였습니다.")
-                .data(TodoDTO.ResBasic.fromEntityList(todoEntityList))
+                .data(todoRepository.findByDeleteYn(deleteYn))
                 .build();
     }
 
     @Transactional
-    public ResDTO<?> insert(TodoDTO.ReqBasic reqDto) {
+    public ResDTO<?> insert(String content) {
+        TodoEntity todoEntity = TodoEntity.builder()
+                .content(content)
+                .doneYn('N')
+                .deleteYn('N')
+                .createDate(LocalDateTime.now())
+                .build();
 
-        todoRepository.insert(reqDto.toEntity());
+        todoRepository.insert(todoEntity);
 
         return ResDTO.builder()
                 .code(0)
@@ -58,7 +60,6 @@ public class TodoServiceApiV2 {
                 .code(0)
                 .message(todoEntity.getIdx() + "번 할 일(" + todoEntity.getContent() + ") 수정에 성공하였습니다.")
                 .build();
-
     }
 
     @Transactional
@@ -73,8 +74,9 @@ public class TodoServiceApiV2 {
         // 리턴값 수정
         // 1번 할 일(잠자기) 삭제에 성공하였습니다.
         return ResDTO.builder()
-                .code(0)
-                .message(todoEntity.getIdx() + "번 할 일(" + todoEntity.getContent() + ") 삭제에 성공하였습니다.")
-                .build();
+            .code(0)
+            .message(todoEntity.getIdx() + "번 할 일(" + todoEntity.getContent() + ") 삭제에 성공하였습니다.")
+            .build();
     }
+
 }

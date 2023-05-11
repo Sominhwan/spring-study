@@ -1,10 +1,12 @@
-package com.example.my.todo.dto;
+package com.example.my.module.todo.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.my.todo.entity.TodoEntity;
+import javax.validation.constraints.NotBlank;
+
+import com.example.my.module.todo.entity.TodoEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,17 +20,20 @@ public class TodoDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReqBasic {
+
+        @NotBlank(message = "내용을 입력해 주세요.")
         private String content;
 
-        public TodoEntity toEntity() {
+        public TodoEntity toEntity(){
             return TodoEntity.builder()
-                    .content(content)
-                    .doneYn('N')
-                    .deleteYn('N')
-                    .createDate(LocalDateTime.now())
-                    .build();
+            .content(content)
+            .doneYn('N')
+            .deleteYn('N')
+            .createDate(LocalDateTime.now())
+            .build();
         }
     }
+
 
     @Data
     @Builder
@@ -48,18 +53,18 @@ public class TodoDTO {
             Character doneYn;
         }
 
-        // 엔티티에서 DTO로 변환
+        // 엔티티에서 DTO로 변환, 팩토리 메소드
         public static ResBasic fromEntityList(List<TodoEntity> todoEntityList) {
+            // map 기존 리스트 데이터를 다른 타입의 리스트 데이터로 변경
             List<Todo> todoList = todoEntityList.stream().map(todoEntity -> {
                 return Todo.builder()
-                        .idx(todoEntity.getIdx())
-                        .content(todoEntity.getContent())
-                        .doneYn(todoEntity.getDoneYn())
-                        .build();
+                    .idx(todoEntity.getIdx())
+                    .content(todoEntity.getContent())
+                    .doneYn(todoEntity.getDoneYn())
+                    .build();
             }).collect(Collectors.toList());
 
             return new ResBasic(todoList);
-            // return ResBasic.builder().todoList(todoList).build();
         }
     }
 }

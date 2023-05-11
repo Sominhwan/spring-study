@@ -1,4 +1,4 @@
-package com.example.my.todo.entity;
+package com.example.my.module.todo.entity;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TodoEntity {
     private Integer idx;
+    private Integer userIdx;
     private String content;
     private Character doneYn;
     private Character deleteYn;
@@ -23,19 +24,16 @@ public class TodoEntity {
     public void setDoneYn(Character doneYn) {
         this.doneYn = doneYn;
     }
-
     public void setDeleteYn(Character deleteYn) {
         this.deleteYn = deleteYn;
     }
-
     public void setUpdateDate(LocalDateTime updateDate) {
         this.updateDate = updateDate;
     }
-
     public void setDeleteDate(LocalDateTime deleteDate) {
         this.deleteDate = deleteDate;
     }
-
+    
     @Override
     public String toString() {
         return "TodoEntity [idx=" + idx + ", content=" + content + ", doneYn=" + doneYn + ", deleteYn=" + deleteYn

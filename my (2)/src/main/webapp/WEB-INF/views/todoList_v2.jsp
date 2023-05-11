@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%@ page
-language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -15,29 +15,10 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
       rel="stylesheet"
       id="bootstrap-css"
     />
-    <link
-      rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/todoList.css"
-    />
-    <title>todoList</title>
+    <link rel="stylesheet" href="css/todoList.css" />
+    <title>Title</title>
   </head>
   <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">
-            <span id="userId"></span>'s work
-          </a>
-        </div>
-        <button
-          type="button"
-          onclick="javascript:location.replace('/logout')"
-          class="btn btn-default navbar-btn navbar-right"
-        >
-          logout
-        </button>
-      </div>
-    </nav>
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -51,10 +32,19 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
               autofocus
             />
             <hr />
-            <ul id="sortable" class="list-unstyled"></ul>
+            <ul id="sortable" class="list-unstyled">
+              <li class="ui-state-default">
+                <div class="checkbox">
+                  <label>
+                    <input onchange="" type="checkbox" value="" />
+                    <span>밥먹기</span>
+                  </label>
+                </div>
+              </li>
+            </ul>
             <div class="todo-footer">
               <strong>
-                <span id="countTodos" class="count-todos"></span>
+                <span id="countTodos" class="count-todos">1</span>
               </strong>
               항목 남았음
             </div>
@@ -63,7 +53,27 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
         <div class="col-md-6">
           <div class="todolist">
             <h1>Already DONE</h1>
-            <ul id="done-items" class="list-unstyled"></ul>
+            <ul id="done-items" class="list-unstyled">
+              <li>
+                <div class="checkbox">
+                  <label>
+                    <input
+                      onchange=""
+                      class="remove-item"
+                      type="checkbox"
+                      value=""
+                    />
+                    <span>잠자기</span>
+                  </label>
+                  <button
+                    onclick=""
+                    class="remove-item btn btn-default btn-xs pull-right"
+                  >
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -71,29 +81,23 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   </body>
   <script>
     console.log("스타일 참고", "https://bootsnipp.com/snippets/QbN51");
-
     // get
     const init = () => {
-      fetch("/api/v2/todo", {
-        method: "GET",
+
+      fetch("/api/v2/todo",{
+        method: "GET"
       })
         .then((res) => res.json())
         .then((result) => {
-          const userId = response.data.user.id;
-          const todoList = result.data.todoList.filter(
-            (todo) => todo.doneYn == "N"
-          );
-          const todoCount = todoList.length;
-          const doneList = result.data.todoList.filter(
-            (todo) => todo.doneYn == "Y"
-          );
 
-          document.querySelector("#userId").innerHTML = userId;
+          const todoList = result.data.todoList.filter((todo) => todo.doneYn == "N");
+          const todoCount = todoList.length;
+          const doneList = result.data.todoList.filter((todo) => todo.doneYn == "Y");
 
           // 원래 리스트 요소 삭제
           const todoListEl = document.querySelector("#sortable");
           // contentEl.innerHTML = "";
-          while (todoListEl.hasChildNodes()) {
+          while(todoListEl.hasChildNodes()){
             todoListEl.removeChild(todoListEl.lastChild);
           }
 
@@ -102,20 +106,16 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
             todoListEl.insertAdjacentHTML(
               "beforeend",
               `
-        <li class="ui-state-default">
-          <div class="checkbox">
-            <label>
-              <input onchange="setDone(` +
-                todo.idx +
-                `)" type="checkbox" value="" />
-              <span>` +
-                todo.content +
-                `</span>
-            </label>
-          </div>
-        </li>
-        `
-            );
+              <li class="ui-state-default">
+                <div class="checkbox">
+                  <label>
+                    <input onchange="setDone(` + todo.idx + `)" type="checkbox" value="" />
+                    <span>` + todo.content + `</span>
+                  </label>
+                </div>
+              </li>
+              `
+            ); 
           }
 
           document.querySelector("#countTodos").innerHTML = todoCount;
@@ -128,39 +128,35 @@ language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
             doneListEl.insertAdjacentHTML(
               "beforeend",
               `
-        <li>
-          <div class="checkbox">
-            <label>
-              <input
-                onchange="setDone(` +
-                todo.idx +
-                `)"
-                class="remove-item"
-                type="checkbox"
-                value=""
-              />
-              <span>` +
-                todo.content +
-                `</span>
-            </label>
-            <button
-              onclick="setDelete(` +
-                todo.idx +
-                `)"
-              class="remove-item btn btn-default btn-xs pull-right"
-            >
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-          </div>
-        </li>
-        `
+              <li>
+                <div class="checkbox">
+                  <label>
+                    <input
+                      onchange="setDone(` + todo.idx + `)"
+                      class="remove-item"
+                      type="checkbox"
+                      value=""
+                    />
+                    <span>` + todo.content + `</span>
+                  </label>
+                  <button
+                    onclick="setDelete(` + todo.idx + `)"
+                    class="remove-item btn btn-default btn-xs pull-right"
+                  >
+                    <span class="glyphicon glyphicon-remove"></span>
+                  </button>
+                </div>
+              </li>
+              `
             );
           }
+
         })
         .catch((error) => {
           alert("에러가 발생했습니다.");
         });
-    };
+
+    }
 
     init();
 

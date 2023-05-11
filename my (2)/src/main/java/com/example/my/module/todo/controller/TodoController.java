@@ -1,4 +1,4 @@
-package com.example.my.todo.controller;
+package com.example.my.module.todo.controller;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.my.todo.entity.TodoEntity;
-import com.example.my.todo.service.TodoService;
+import com.example.my.module.todo.entity.TodoEntity;
+import com.example.my.module.todo.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
 

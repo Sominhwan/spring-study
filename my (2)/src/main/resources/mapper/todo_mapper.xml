@@ -1,39 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.my.todo.repository.TodoRepository">
+<mapper namespace="com.example.my.module.todo.repository.TodoRepository">
 
     <sql id="fullColumn">
-        idx, content, done_yn, delete_yn, create_date, update_date, delete_date
+        idx,
+        user_idx,
+        content,
+        done_yn,
+        delete_yn,
+        create_date,
+        update_date,
+        delete_date
     </sql>
 
-    <select id="findByIdx" parameterType="java.lang.Integer" resultType="com.example.my.todo.entity.TodoEntity">
-        select <include refid="fullColumn"/>
-        from todo
-        where idx = #{idx};
+    <select id="findByDeleteYn" parameterType="java.lang.Character" resultType="com.example.my.module.todo.entity.TodoEntity">
+        SELECT <include refid="fullColumn"/>
+        FROM TODO
+        WHERE delete_yn = #{deleteYn}
     </select>
 
-    <select 
-        id="findByDeleteYn" 
-        parameterType="java.lang.Character"
-        resultType="com.example.my.todo.entity.TodoEntity"
-    >
-        select *
-        from todo
-        where delete_yn = #{deleteYn};
+    <select id="findByUserIdxAndDeleteYn" resultType="com.example.my.module.todo.entity.TodoEntity">
+        SELECT <include refid="fullColumn"/>
+        FROM TODO
+        WHERE user_idx = #{userIdx}
+            AND delete_yn = #{deleteYn}
     </select>
 
-    <insert id="insert" parameterType="com.example.my.todo.entity.TodoEntity">
-        insert into todo(content, done_yn, delete_yn, create_date)
-        values(#{content}, #{doneYn}, #{deleteYn}, #{createDate});
+    <select id="findByIdx" parameterType="java.lang.Integer" resultType="com.example.my.module.todo.entity.TodoEntity">
+        SELECT <include refid="fullColumn"/>
+        FROM TODO
+        WHERE idx = #{idx}
+            AND delete_yn = 'N'
+    </select>
+
+    <insert id="insert" parameterType="com.example.my.module.todo.entity.TodoEntity">
+        INSERT INTO TODO (
+            user_idx,
+            content,
+            done_yn,
+            delete_yn,
+            create_date
+        )
+        VALUES (
+            #{userIdx},
+            #{content},
+            #{doneYn},
+            #{deleteYn},
+            #{createDate}
+        )
     </insert>
 
-    <update id="update" parameterType="com.example.my.todo.entity.TodoEntity">
-        update todo
-        set done_yn = #{doneYn},
-            delete_yn = #{deleteYn},
-            update_date = #{updateDate},
-            delete_date = #{deleteDate}
-        where idx = #{idx};
+    <update id="update" parameterType="com.example.my.module.todo.entity.TodoEntity">
+        UPDATE 	TODO
+		SET     done_yn = #{doneYn},
+                delete_yn = #{deleteYn},
+                update_date = #{updateDate},
+                delete_date = #{deleteDate}
+		WHERE	idx = #{idx}
     </update>
+
 </mapper>
