@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/todo")
 public class TodoControllerApiV1 {
-    
+
     private final TodoServiceApiV1 todoServiceApiV1;
 
     @GetMapping
